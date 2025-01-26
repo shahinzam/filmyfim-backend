@@ -8,7 +8,6 @@ import httpx
 import re
 import random
 from prompts.movies import create_recommendation_prompt
-import uvicorn
 import asyncio
 from typing import List, Optional
 
@@ -37,6 +36,7 @@ app.add_middleware(
         "https://www.filmyfim.vercel.app",
         "https://filmyfim-git-main-shahinzam.vercel.app",
         "https://filmyfim-shahinzam.vercel.app",
+        "https://your-production-domain.com",
         "file://"
     ],
     allow_credentials=True,
@@ -278,14 +278,3 @@ async def get_movie_recommendations(request: MovieRequest):
 @app.get("/")
 async def root():
     return {"status": "ok", "message": "Server is running"}
-
-if __name__ == "__main__":
-    # Railway sets PORT environment variable automatically
-    port = int(os.getenv("PORT", "8080"))
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=port,
-        proxy_headers=True,
-        forwarded_allow_ips="*"
-    )
